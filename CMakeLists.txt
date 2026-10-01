@@ -23,3 +23,7 @@ add_library(blockchain_core
 target_include_directories(blockchain_core PUBLIC include)
 target_link_libraries(blockchain_core PUBLIC OpenSSL::Crypto)
 enable_project_warnings(blockchain_core)
+
+add_executable(blockchain app/main.cpp)
+target_link_libraries(blockchain PRIVATE blockchain_core)
+enable_project_warnings(blockchain)
