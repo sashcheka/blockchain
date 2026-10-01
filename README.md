@@ -15,13 +15,13 @@ A small C++20 proof-of-work ledger built to make the core blockchain ideas easy 
 
 ## Build
 
-Requirements: CMake 3.16+, a C++20 compiler, and OpenSSL 1.1.1+ development files.
+Requirements: CMake 3.16+, a C++20 compiler, OpenSSL 1.1.1+ development files, and GoogleTest.
 
 On macOS with Homebrew:
 
 ```sh
-brew install cmake openssl@3
-cmake -S . -B build -DOPENSSL_ROOT_DIR="$(brew --prefix openssl@3)"
+brew install cmake openssl@3 googletest
+cmake -S . -B build -DOPENSSL_ROOT_DIR="$(brew --prefix openssl@3)" -DCMAKE_PREFIX_PATH="$(brew --prefix googletest)"
 cmake --build build
 ctest --test-dir build --output-on-failure
 ```
@@ -29,7 +29,7 @@ ctest --test-dir build --output-on-failure
 On Ubuntu/Debian:
 
 ```sh
-sudo apt-get install cmake g++ libssl-dev
+sudo apt-get install cmake g++ libssl-dev libgtest-dev
 cmake -S . -B build
 cmake --build build
 ctest --test-dir build --output-on-failure
@@ -60,7 +60,7 @@ Available commands: `send`, `mine`, `chain`, `verify`, `help`, and `exit`. Diffi
 app/main.cpp                 CLI parsing and presentation
 include/blockchain/          Public domain interfaces
 src/                         Hashing, transaction, block, and chain logic
-tests/                       Lightweight tests registered with CTest
+tests/                       GoogleTest unit tests discovered by CTest
 ```
 
 The `Blockchain` owns blocks and pending transactions. It chooses the next block index and parent hash, while `Block` owns canonical header hashing and proof-of-work verification. Transactions and blocks are value types; the domain layer does not print to the console.

@@ -30,8 +30,11 @@ enable_project_warnings(blockchain)
 
 include(CTest)
 if(BUILD_TESTING)
+    find_package(GTest CONFIG REQUIRED)
+    include(GoogleTest)
+
     add_executable(blockchain_tests tests/blockchain_tests.cpp)
-    target_link_libraries(blockchain_tests PRIVATE blockchain_core)
+    target_link_libraries(blockchain_tests PRIVATE blockchain_core GTest::gtest_main)
     enable_project_warnings(blockchain_tests)
-    add_test(NAME blockchain_tests COMMAND blockchain_tests)
+    gtest_discover_tests(blockchain_tests)
 endif()
