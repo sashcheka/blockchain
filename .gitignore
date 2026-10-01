@@ -1,3 +1,17 @@
+# CMake / build output
 /build/
 /cmake-build-*/
+/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+/Testing/
+CTestTestfile.cmake
+*.ninja
+.ninja_*
+
+# OS
 .DS_Store
+
+# IDE
+.idea/
