@@ -1,6 +1,6 @@
 # Blockchain Lab
 
-A small C++17 proof-of-work ledger built to make the core blockchain ideas easy to inspect: canonical transaction encoding, SHA-256 block hashes, mining, and chain validation.
+A small C++20 proof-of-work ledger built to make the core blockchain ideas easy to inspect: canonical transaction encoding, SHA-256 block hashes, mining, and chain validation.
 
 > This is an educational project. It is not a cryptocurrency and must not be used to store value. Transactions are not signed, balances are not tracked, and there is no peer-to-peer network.
 
@@ -15,7 +15,7 @@ A small C++17 proof-of-work ledger built to make the core blockchain ideas easy 
 
 ## Build
 
-Requirements: CMake 3.16+, a C++17 compiler, and OpenSSL 1.1.1+ development files.
+Requirements: CMake 3.16+, a C++20 compiler, and OpenSSL 1.1.1+ development files.
 
 On macOS with Homebrew:
 
