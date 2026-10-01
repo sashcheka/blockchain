@@ -13,6 +13,35 @@ A small C++20 proof-of-work ledger built to make the core blockchain ideas easy 
 - The chain verifier checks block order, parent links, stored hashes, and proof of work.
 - Domain logic is a library, separate from the interactive command-line app.
 
+## How it works
+
+The CLI handles input and output. `Blockchain` owns pending transactions and mined blocks; each `Block` contains transactions and its proof-of-work hash. GoogleTest exercises the core without going through the CLI.
+
+```mermaid
+flowchart LR
+    CLI["CLI"] --> BC["Blockchain"]
+    BC --> Pool["Pending transactions"]
+    BC --> Chain["Block chain"]
+    Chain --> Block["Block"]
+    Block --> Tx["Transaction list"]
+    Block --> Hash["SHA-256 hash"]
+    Tests["GoogleTest"] -. verifies .-> BC
+    Tests -. verifies .-> Block
+    Tests -. verifies .-> Hash
+```
+
+Sending a transaction queues it. Mining creates the next block, searches for a nonce that meets the difficulty, and appends the block. `verify` checks that the chain still follows those rules.
+
+```mermaid
+flowchart TD
+    Send["send sender recipient amount data"] --> Queue["Validate and queue transaction"]
+    Queue --> Mine["mine"]
+    Mine --> Create["Create block with next index and parent hash"]
+    Create --> Proof["Search nonce until hash meets difficulty"]
+    Proof --> Append["Append block and clear pending transactions"]
+    Append --> Verify["verify: check indexes, links, hashes, and proof of work"]
+```
+
 ## Build
 
 Requirements: CMake 3.16+, a C++20 compiler, OpenSSL 1.1.1+ development files, and GoogleTest.
@@ -56,12 +85,12 @@ Available commands: `send`, `mine`, `chain`, `verify`, `help`, and `exit`. Diffi
 
 ## Architecture
 
-```text
-app/main.cpp                 CLI parsing and presentation
-include/blockchain/          Public domain interfaces
-src/                         Hashing, transaction, block, and chain logic
-tests/                       GoogleTest unit tests discovered by CTest
-```
+| Path | Responsibility |
+| --- | --- |
+| `app/main.cpp` | CLI parsing and presentation |
+| `include/blockchain/` | Public domain interfaces |
+| `src/` | Hashing, transaction, block, and chain logic |
+| `tests/` | GoogleTest unit tests discovered by CTest |
 
 The `Blockchain` owns blocks and pending transactions. It chooses the next block index and parent hash, while `Block` owns canonical header hashing and proof-of-work verification. Transactions and blocks are value types; the domain layer does not print to the console.
 
