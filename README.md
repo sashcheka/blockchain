@@ -1,4 +1,4 @@
-# Blockchain Lab
+# Blockchain
 
 A small C++20 proof-of-work ledger built to make the core blockchain ideas easy to inspect: canonical transaction encoding, SHA-256 block hashes, mining, and chain validation.
 
